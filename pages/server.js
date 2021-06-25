@@ -24,9 +24,9 @@ function Page({ articles }) {
 	// get middle pages
 	const pages = [];
 	if (firstDiff <= 0) {
-		for (let i = 2; i <= 5 && i < TOTAL_PAGES; i++) pages.push(i);
+		for (let i = 2; i <= 4 && i < TOTAL_PAGES; i++) pages.push(i);
 	} else if (lastDiff >= 0) {
-		for (let i = TOTAL_PAGES - 4, ctr = 2; ctr <= 5; i++, ctr++) {
+		for (let i = TOTAL_PAGES - 3, ctr = 2; ctr <= 4; i++, ctr++) {
 			if (i !== 1) pages.push(i);
 		}
 	} else {
@@ -51,8 +51,10 @@ function Page({ articles }) {
 		<div className={styles.container}>
 			<p>{pageIndex}</p>
 			<ul>
-				{data.map(({ id }) => (
-					<li key={id}>{id}</li>
+				{data.map(({ id, title }) => (
+					<li key={id}>
+						<strong>{id}</strong>: {title}
+					</li>
 				))}
 			</ul>
 			<div style={{ display: 'flex' }}>
@@ -60,6 +62,7 @@ function Page({ articles }) {
 					onClick={() => {
 						setPageIndex(pageIndex - 1);
 					}}
+					disabled={pageIndex === 1}
 				>
 					prev
 				</button>
@@ -82,6 +85,7 @@ function Page({ articles }) {
 					onClick={() => {
 						setPageIndex(pageIndex + 1);
 					}}
+					disabled={pageIndex >= TOTAL_PAGES}
 				>
 					next
 				</button>
