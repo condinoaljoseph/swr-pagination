@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import useSwr from 'swr';
 import styles from '../styles/Home.module.css';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -6,14 +7,22 @@ const PAGE_SIZE = 3;
 const TOTAL_ARTICLES = 30;
 const TOTAL_PAGES = Math.ceil(TOTAL_ARTICLES / PAGE_SIZE);
 
-function Page({ data }) {
+export async function getServerSideProps(context) {
+	const articles = await fetcher(
+		`https://dev.to/api/articles?page=1&per_page=${PAGE_SIZE}`
+	);
+
+	return { props: { articles } };
+}
+
+function Page({ articles }) {
 	const [pageIndex, setPageIndex] = useState(1);
 
-	// const { data } = useSwr(
-	// 	`https://dev.to/api/articles?page=${pageIndex}&per_page=${PAGE_SIZE}`,
-	// 	fetcher,
-	// 	{ dedupingInterval: 10000 }
-	// );
+	const { data } = useSwr(
+		`https://dev.to/api/articles?page=${pageIndex}&per_page=${PAGE_SIZE}`,
+		fetcher,
+		{ dedupingInterval: 10000, initialData: articles }
+	);
 
 	if (!data) return <h1>Loading</h1>;
 
@@ -47,7 +56,7 @@ function Page({ data }) {
 	});
 
 	return (
-		<div className={styles.container}>
+		<div className={styles.main}>
 			<p>{pageIndex}</p>
 			<ul>
 				{data.map(({ id }) => (
@@ -87,13 +96,6 @@ function Page({ data }) {
 			</div>
 		</div>
 	);
-}
-
-export async function getServerSideProps() {
-	const data = await fetcher('https://dev.to/api/articles?page=1&per_page=10');
-	console.log(data, 'gann');
-
-	return { props: data };
 }
 
 export default Page;
