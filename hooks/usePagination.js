@@ -2,15 +2,14 @@ export default function usePagination(props = {}) {
 	const {
 		boundaryCount,
 		count,
-		page,
 		disabled,
 		hideNextButton,
 		hidePrevButton,
 		showFirstButton,
 		showLastButton,
 		siblingCount,
-		size,
-		variant
+		showEllipsis,
+		page
 	} = props;
 
 	const handleClick = (event, value) => {
@@ -63,7 +62,9 @@ export default function usePagination(props = {}) {
 		// Start ellipsis
 		// eslint-disable-next-line no-nested-ternary
 		...(siblingsStart > boundaryCount + 2
-			? ['start-ellipsis']
+			? showEllipsis
+				? ['start-ellipsis']
+				: []
 			: boundaryCount + 1 < count - boundaryCount
 			? [boundaryCount + 1]
 			: []),
@@ -74,7 +75,9 @@ export default function usePagination(props = {}) {
 		// End ellipsis
 		// eslint-disable-next-line no-nested-ternary
 		...(siblingsEnd < count - boundaryCount - 1
-			? ['end-ellipsis']
+			? showEllipsis
+				? ['end-ellipsis']
+				: []
 			: count - boundaryCount > boundaryCount
 			? [count - boundaryCount]
 			: []),
@@ -126,6 +129,8 @@ export default function usePagination(props = {}) {
 							(item === 'next' || item === 'last' ? page >= count : page <= 1))
 			  };
 	});
+
+	console.log(items, 'gg');
 
 	return {
 		items

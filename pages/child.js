@@ -1,10 +1,10 @@
 import styles from '../styles/Home.module.css';
-import Mock from '../components/mock';
+import Mock from '../components/Mock';
 
 function Page() {
 	return (
 		<div className={styles.container}>
-			<h2>This child component is serverside rendered on its own</h2>
+			<h2>Pagination component</h2>
 			<Mock />
 		</div>
 	);

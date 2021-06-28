@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import useSwr from 'swr';
+import Pagination from '../components/Pagination';
 import styles from '../styles/Home.module.css';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -18,79 +19,20 @@ function Page({ articles }) {
 
 	if (!data) return <h1>Loading</h1>;
 
-	const firstDiff = pageIndex - 3;
-	const lastDiff = pageIndex + 2 - TOTAL_PAGES;
-
-	// get middle pages
-	const pages = [];
-	if (firstDiff <= 0) {
-		for (let i = 2; i <= 4 && i < TOTAL_PAGES; i++) pages.push(i);
-	} else if (lastDiff >= 0) {
-		for (let i = TOTAL_PAGES - 3, ctr = 2; ctr <= 4; i++, ctr++) {
-			if (i !== 1) pages.push(i);
-		}
-	} else {
-		pages.push(pageIndex - 1);
-		pages.push(pageIndex);
-		pages.push(pageIndex + 1);
-	}
-
-	let midPages = pages.map((pageCount, index) => {
-		return (
-			<button
-				onClick={() => {
-					setPageIndex(pageCount);
-				}}
-			>
-				{pageCount}
-			</button>
-		);
-	});
-
 	return (
-		<div className={styles.container}>
-			<p>{pageIndex}</p>
-			<ul>
-				{data.map(({ id, title }) => (
-					<li key={id}>
-						<strong>{id}</strong>: {title}
-					</li>
-				))}
-			</ul>
-			<div style={{ display: 'flex' }}>
-				<button
-					onClick={() => {
-						setPageIndex(pageIndex - 1);
-					}}
-					disabled={pageIndex === 1}
-				>
-					prev
-				</button>
-				<button
-					onClick={() => {
-						setPageIndex(1);
-					}}
-				>
-					1
-				</button>
-				{midPages}
-				<button
-					onClick={() => {
-						setPageIndex(TOTAL_PAGES);
-					}}
-				>
-					{TOTAL_PAGES}
-				</button>
-				<button
-					onClick={() => {
-						setPageIndex(pageIndex + 1);
-					}}
-					disabled={pageIndex >= TOTAL_PAGES}
-				>
-					next
-				</button>
+		<Fragment>
+			<div className={styles.container}>
+				<p>{pageIndex}</p>
+				<ul>
+					{data.map(({ id, title }) => (
+						<li key={id}>
+							<strong>{id}</strong>: {title}
+						</li>
+					))}
+				</ul>
+				<Pagination page={pageIndex} count={TOTAL_PAGES} showEllipsis={false} />
 			</div>
-		</div>
+		</Fragment>
 	);
 }
 

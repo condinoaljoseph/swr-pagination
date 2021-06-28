@@ -1,30 +1,39 @@
 import React from 'react';
 import usePagination from '../hooks/usePagination';
+import PaginationItem from './PaginationItem';
 
-const Pagination = React.forwardRef(function Pagination(inProps, ref) {
+function renderItem(props) {
+	return <PaginationItem {...props} />;
+}
+
+const Pagination = (props) => {
 	const defaultProps = {
 		boundaryCount: 1,
-		count: 10,
-		page: 1,
+		count: 1,
 		disabled: false,
 		hideNextButton: false,
 		hidePrevButton: false,
+		renderItem: (item) => <PaginationItem {...item} />,
 		showFirstButton: false,
 		showLastButton: false,
 		siblingCount: 1,
-		size: 'medium',
-		variant: 'text'
+		showEllipsis: true,
+		...props
 	};
 
 	const { items } = usePagination({ ...defaultProps });
 
 	return (
-		<div style={{ display: 'flex' }}>
+		<ul style={{ display: 'flex', listStyle: 'none' }}>
 			{items.map((item, index) => (
-				<li key={index}>{item.page}</li>
+				<li key={index}>
+					{renderItem({
+						...item
+					})}
+				</li>
 			))}
-		</div>
+		</ul>
 	);
-});
+};
 
 export default Pagination;
