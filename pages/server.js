@@ -10,16 +10,18 @@ const TOTAL_ARTICLES = 30;
 const TOTAL_PAGES = Math.ceil(TOTAL_ARTICLES / PAGE_SIZE);
 
 const CustomLink = forwardRef(({ item, query, ...props }, ref) => {
+	console.log(props, 'gggggg');
+
 	return (
 		<a
 			{...props}
 			ref={ref}
 			href="#"
 			onClick={(e) => {
-				e.preventDefault();
-				console.log('ngee');
+				e.preventDefault;
+				console.log('bahooo');
 			}}
-		></a>
+		/>
 	);
 });
 

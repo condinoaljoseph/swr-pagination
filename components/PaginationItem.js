@@ -12,11 +12,6 @@ const PaginationItem = React.forwardRef(function PaginationItem(inProps, ref) {
 		...other
 	} = props;
 
-	console.log(component, 'hehe');
-
-	// return component;
-	// return <div>{React.createElement(component)}</div>;
-
 	return item.type === 'start-ellipsis' || item.type === 'end-ellipsis' ? (
 		<button>...</button>
 	) : item.type === 'previous' ? (
@@ -24,7 +19,10 @@ const PaginationItem = React.forwardRef(function PaginationItem(inProps, ref) {
 	) : item.type === 'next' ? (
 		<button>next</button>
 	) : (
-		<button style={{ color: selected ? 'red' : 'black' }}>
+		<button
+			style={{ color: item.selected ? 'red' : 'black' }}
+			onClick={item.onClick}
+		>
 			{React.createElement(
 				component,
 				{ ...item },
