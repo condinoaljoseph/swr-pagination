@@ -6,7 +6,7 @@ const mock = () => {
 	return (
 		<div>
 			<Pagination
-				page={14}
+				page={21}
 				count={30}
 				showEllipsis={false}
 				renderItem={(item) => <PaginationItem item={item} {...item} />}

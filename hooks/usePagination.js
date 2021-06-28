@@ -1,18 +1,33 @@
+import useControlled from './useControlled';
+
 export default function usePagination(props = {}) {
 	const {
-		boundaryCount,
-		count,
-		disabled,
-		hideNextButton,
-		hidePrevButton,
-		showFirstButton,
-		showLastButton,
-		siblingCount,
-		showEllipsis,
-		page
+		boundaryCount = 1,
+		componentName = 'usePagination',
+		count = 1,
+		disabled = false,
+		defaultPage = 1,
+		hideNextButton = false,
+		hidePrevButton = false,
+		showFirstButton = false,
+		showLastButton = false,
+		showEllipsis = true,
+		siblingCount = 1,
+		page: pageProp,
+		onChange: handleChange
 	} = props;
 
+	const [page, setPageState] = useControlled({
+		controlled: pageProp,
+		default: defaultPage,
+		name: componentName,
+		state: 'page'
+	});
+
 	const handleClick = (event, value) => {
+		if (!pageProp) {
+			setPageState(value);
+		}
 		if (handleChange) {
 			handleChange(event, value);
 		}
@@ -129,8 +144,6 @@ export default function usePagination(props = {}) {
 							(item === 'next' || item === 'last' ? page >= count : page <= 1))
 			  };
 	});
-
-	console.log(items, 'gg');
 
 	return {
 		items

@@ -1,6 +1,7 @@
-import { useState, Fragment } from 'react';
+import { useState, Fragment, forwardRef } from 'react';
 import useSwr from 'swr';
 import Pagination from '../components/Pagination';
+import PaginationItem from '../components/PaginationItem';
 import styles from '../styles/Home.module.css';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -8,8 +9,22 @@ const PAGE_SIZE = 3;
 const TOTAL_ARTICLES = 30;
 const TOTAL_PAGES = Math.ceil(TOTAL_ARTICLES / PAGE_SIZE);
 
+const CustomLink = forwardRef(({ item, query, ...props }, ref) => {
+	return (
+		<a
+			{...props}
+			ref={ref}
+			href="#"
+			onClick={(e) => {
+				e.preventDefault();
+				console.log('ngee');
+			}}
+		></a>
+	);
+});
+
 function Page({ articles }) {
-	const [pageIndex, setPageIndex] = useState(1);
+	const [pageIndex, setPageIndex] = useState(5);
 
 	const { data } = useSwr(
 		`https://dev.to/api/articles?page=${pageIndex}&per_page=${PAGE_SIZE}`,
@@ -30,7 +45,18 @@ function Page({ articles }) {
 						</li>
 					))}
 				</ul>
-				<Pagination page={pageIndex} count={TOTAL_PAGES} showEllipsis={false} />
+				<Pagination
+					page={pageIndex}
+					count={TOTAL_PAGES}
+					showEllipsis={false}
+					renderItem={(item) => (
+						<PaginationItem
+							component={CustomLink}
+							pageIndex={pageIndex}
+							item={item}
+						/>
+					)}
+				/>
 			</div>
 		</Fragment>
 	);
