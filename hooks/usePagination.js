@@ -14,7 +14,8 @@ export default function usePagination(props = {}) {
 		showEllipsis = true,
 		siblingCount = 1,
 		page: pageProp,
-		onChange: handleChange
+		onChange: handleChange,
+		...other
 	} = props;
 
 	const [page, setPageState] = useControlled({
@@ -146,6 +147,7 @@ export default function usePagination(props = {}) {
 	});
 
 	return {
-		items
+		items,
+		...other
 	};
 }

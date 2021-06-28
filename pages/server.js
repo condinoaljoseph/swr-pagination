@@ -9,17 +9,15 @@ const PAGE_SIZE = 3;
 const TOTAL_ARTICLES = 30;
 const TOTAL_PAGES = Math.ceil(TOTAL_ARTICLES / PAGE_SIZE);
 
-const CustomLink = forwardRef(({ item, query, ...props }, ref) => {
-	console.log(props, 'gggggg');
-
+const CustomLink = forwardRef(({ page, setPageIndex, ...props }, ref) => {
 	return (
 		<a
 			{...props}
 			ref={ref}
 			href="#"
 			onClick={(e) => {
-				e.preventDefault;
-				console.log('bahooo');
+				e.preventDefault();
+				props.other.setPageIndex(page);
 			}}
 		/>
 	);
@@ -49,6 +47,7 @@ function Page({ articles }) {
 				</ul>
 				<Pagination
 					page={pageIndex}
+					setPageIndex={setPageIndex}
 					count={TOTAL_PAGES}
 					showEllipsis={false}
 					renderItem={(item) => (

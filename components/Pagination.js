@@ -15,7 +15,8 @@ const Pagination = React.forwardRef(function Pagination(inProps, ref) {
 		showFirstButton = false,
 		showLastButton = false,
 		siblingCount = 1,
-		showEllipsis = true
+		showEllipsis = true,
+		...other
 	} = props;
 
 	const { items } = usePagination({ ...props });
@@ -26,7 +27,8 @@ const Pagination = React.forwardRef(function Pagination(inProps, ref) {
 				return (
 					<li key={index}>
 						{renderItem({
-							...item
+							...item,
+							other
 						})}
 					</li>
 				);

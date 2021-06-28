@@ -13,11 +13,11 @@ const PaginationItem = React.forwardRef(function PaginationItem(inProps, ref) {
 	} = props;
 
 	return item.type === 'start-ellipsis' || item.type === 'end-ellipsis' ? (
-		<button>...</button>
+		<button {...item}>...</button>
 	) : item.type === 'previous' ? (
-		<button>prev</button>
+		<button {...item}>prev</button>
 	) : item.type === 'next' ? (
-		<button>next</button>
+		<button {...item}>next</button>
 	) : (
 		<button
 			style={{ color: item.selected ? 'red' : 'black' }}
