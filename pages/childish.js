@@ -5,7 +5,7 @@ function Page() {
 	return (
 		<div className={styles.container}>
 			<h2>Pagination component</h2>
-			<Mock />
+			{/* <Mock /> */}
 		</div>
 	);
 }
